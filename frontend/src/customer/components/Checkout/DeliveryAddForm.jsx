@@ -3,6 +3,17 @@ import React from "react";
 import AddressCard from "../AddressCard/AddressCard";
 
 const DeliveryAddForm = () => {
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const data= new FormData(e.currentTarget);
+        const address = {
+            firstname : data.get("firstname")
+        }
+
+        console.log("address",address);
+    }
+
   return (
     <div>
       <Grid container spacing={4}>
@@ -25,7 +36,7 @@ const DeliveryAddForm = () => {
 
         <Grid item xs={12} lg={7}>
           <Box className="border rounded-md shadow-md p-5">
-            <form>
+            <form onSubmit={handleSubmit}>
               <Grid container spacing={3}>
                 <Grid item xs={12} sm={6}>
                   <TextField
