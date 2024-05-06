@@ -10,8 +10,6 @@ const DeliveryAddForm = () => {
         const address = {
             firstname : data.get("firstname")
         }
-
-        console.log("address",address);
     }
 
   return (
