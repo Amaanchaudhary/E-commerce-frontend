@@ -3,14 +3,20 @@ import React from "react";
 import AddressCard from "../AddressCard/AddressCard";
 
 const DeliveryAddForm = () => {
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const data= new FormData(e.currentTarget);
-        const address = {
-            firstname : data.get("firstname")
-        }
-    }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
+    const address = {
+      firstname: data.get("firstname"),
+      lastname: data.get("lastname"),
+      streetAddress : data.get("address"),
+      city : data.get("city"),
+      state : data.get("state"),
+      zipCode : data.get("zip"),
+      mobile : data.get("phonenumber")
+    };
+    console.log("address", address);
+  };
 
   return (
     <div>
@@ -117,7 +123,7 @@ const DeliveryAddForm = () => {
 
                 <Grid item xs={12} sm={6}>
                   <Button
-                    sx={{mt: 2, bgcolor: "RGB(145 85 253)" }}
+                    sx={{ mt: 2, bgcolor: "RGB(145 85 253)" }}
                     size="large"
                     variant="contained"
                     type="submit"
