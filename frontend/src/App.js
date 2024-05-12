@@ -14,22 +14,9 @@ import CustomerRoutes from './customer/CustomerRoutes';
 function App() {
   return (
     <div className="">
-
-    <Routes>
-      <Route path='/*' element={<CustomerRoutes/>}/>
-    </Routes>
-
-      <Navigation />
-      <div className='pt-5'>
-        {/* <Homepage /> */}
-        {/* <Products /> */}
-        {/* <ProductDetails />   */}
-        {/* <Cart/> */}
-        {/* <Checkout/> */}
-        {/* <Order/> */}
-        {/* <OrderDertails/> */}
-      </div>
-      <Footer />
+      <Routes>
+        <Route path='/*' element={<CustomerRoutes />} />
+      </Routes>
     </div>
   );
 }
