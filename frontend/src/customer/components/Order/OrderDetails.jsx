@@ -5,7 +5,7 @@ import { Box, Grid } from "@mui/material";
 import { deepPurple } from "@mui/material/colors";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 
-const OrderDertails = () => {
+const OrderDetails = () => {
   return (
     <div className="px-5 lg:px-20">
       <div>
@@ -59,4 +59,4 @@ const OrderDertails = () => {
   );
 };
 
-export default OrderDertails;
+export default OrderDetails;

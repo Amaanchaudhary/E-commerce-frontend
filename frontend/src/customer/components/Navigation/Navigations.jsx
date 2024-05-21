@@ -412,7 +412,7 @@ export default function Navigation() {
                           Profile
                         </MenuItem>
 
-                        <MenuItem>My Order</MenuItem>
+                        <MenuItem onClick={() => navigate("/account/order")} >My Order</MenuItem>
 
                         <MenuItem>Logout</MenuItem>
                       </Menu>
