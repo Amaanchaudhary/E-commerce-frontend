@@ -11,6 +11,7 @@ import { Avatar, Button, Menu, MenuItem } from "@mui/material";
 import { deepPurple } from "@mui/material/colors";
 import { navigation } from "./NavigationData";
 import { useNavigate } from "react-router-dom";
+import AuthModal from "../../Auth/AuthModal";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -26,23 +27,23 @@ export default function Navigation() {
   const jwt = localStorage.getItem("jwt");
 
   const handleUserClick = (event) => {
-    setAnchorEl(event.currentTarget)
-  }
+    setAnchorEl(event.currentTarget);
+  };
 
   const handleCloseUserMenu = (event) => {
-    setAnchorEl(null)
-  }
+    setAnchorEl(null);
+  };
 
   const handleOpen = () => {
-    setOpenAuthModal(false)
-  }
+    setOpenAuthModal(true);
+  };
 
   const handleClose = () => {
     setOpenAuthModal(false);
   };
 
   const handleCategoryClick = (category, section, item, close) => {
-    navigate(`/${category.id}/${section.id}/${item.id}`)
+    navigate(`/${category.id}/${section.id}/${item.id}`);
     close();
   };
 
@@ -239,12 +240,12 @@ export default function Navigation() {
 
               {/* Logo */}
               <div className="ml-4 flex lg:ml-0">
-                  <span className="sr-only">Your Company</span>
-                  <img
-                    className="h-14 w-14 mr-1"
-                    src="https://www.shutterstock.com/image-vector/shop-logo-good-260nw-1290022027.jpg"
-                    alt="Image"
-                  />
+                <span className="sr-only">Your Company</span>
+                <img
+                  className="h-14 w-14 mr-1"
+                  src="https://www.shutterstock.com/image-vector/shop-logo-good-260nw-1290022027.jpg"
+                  alt="Image"
+                />
               </div>
 
               {/* Flyout menus */}
@@ -383,7 +384,7 @@ export default function Navigation() {
                   className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end 
                 lg:space-x-6"
                 >
-                  {true ? (
+                  {false ? (
                     <div>
                       <Avatar
                         className="text-white"
@@ -399,6 +400,7 @@ export default function Navigation() {
                       >
                         A
                       </Avatar>
+
                       <Menu
                         id="basic-menu"
                         anchorEl={anchorEl}
@@ -412,7 +414,9 @@ export default function Navigation() {
                           Profile
                         </MenuItem>
 
-                        <MenuItem onClick={() => navigate("/account/order")} >My Order</MenuItem>
+                        <MenuItem onClick={() => navigate("/account/order")}>
+                          My Order
+                        </MenuItem>
 
                         <MenuItem>Logout</MenuItem>
                       </Menu>
@@ -456,6 +460,8 @@ export default function Navigation() {
           </div>
         </nav>
       </header>
+
+      <AuthModal handleClose={handleClose} open={OpenAuthModal} />
     </div>
   );
 }

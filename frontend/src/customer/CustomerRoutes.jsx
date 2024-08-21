@@ -14,21 +14,27 @@ const CustomerRoutes = () => {
   return (
     <div>
       <div>
-        <Navigation/>
+        <Navigation />
       </div>
       <div className="py-5">
-      <Routes>
-        <Route path="/" element={<Homepage />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/:levelOne/:levelTwo/:LevelThree" element={<Products />} />
-        <Route path="/product/:productId" element={<ProductDetails />} />
-        <Route path="/checkout" element={<Checkout />} />
-        <Route path="/account/order" element={<Order />} />
-        <Route path="/account/order/:id" element={<OrderDetails />} />
-      </Routes>
+        <Routes>
+          <Route path="/login" element={<Homepage />} />
+          <Route path="/register" element={<Homepage />} />
+
+          <Route path="/" element={<Homepage />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route
+            path="/:levelOne/:levelTwo/:LevelThree"
+            element={<Products />}
+          />
+          <Route path="/product/:productId" element={<ProductDetails />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/account/order" element={<Order />} />
+          <Route path="/account/order/:id" element={<OrderDetails />} />
+        </Routes>
       </div>
       <div>
-        <Footer/>
+        <Footer />
       </div>
     </div>
   );
