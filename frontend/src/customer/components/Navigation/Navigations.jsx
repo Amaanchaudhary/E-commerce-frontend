@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Popover, Tab, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
@@ -10,8 +10,10 @@ import {
 import { Avatar, Button, Menu, MenuItem } from "@mui/material";
 import { deepPurple } from "@mui/material/colors";
 import { navigation } from "./NavigationData";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import AuthModal from "../../Auth/AuthModal";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser, logout } from "../../../state/Auth/Action";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -20,11 +22,14 @@ function classNames(...classes) {
 export default function Navigation() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation()
 
   const [OpenAuthModal, setOpenAuthModal] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const openUserMenu = Boolean(anchorEl);
   const jwt = localStorage.getItem("jwt");
+  const { auth } = useSelector((store) => store);
+  const dispatch = useDispatch()
 
   const handleUserClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -46,6 +51,27 @@ export default function Navigation() {
     navigate(`/${category.id}/${section.id}/${item.id}`);
     close();
   };
+
+  const handleLogout = () => {
+    dispatch(logout());
+    handleCloseUserMenu()
+    localStorage.clear()
+  };
+
+  useEffect(() => {
+    if (jwt) {
+      dispatch(getUser(jwt));
+    }
+  }, [jwt, auth.jwt]);
+
+  useEffect(() => {
+    if(auth.user){
+      handleClose()
+    }
+    if(location.pathname ===  '/login' || location.pathname ===  '/register' ){
+      navigate(-1)
+    }
+  }, [auth.user]);
 
   return (
     <div className="bg-white z-50">
@@ -384,7 +410,7 @@ export default function Navigation() {
                   className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end 
                 lg:space-x-6"
                 >
-                  {false ? (
+                  {auth?.user?.firstname ? (
                     <div>
                       <Avatar
                         className="text-white"
@@ -398,7 +424,7 @@ export default function Navigation() {
                           cursor: "pointer",
                         }}
                       >
-                        A
+                        {auth.user.firstname[0].toUpperCase()}
                       </Avatar>
 
                       <Menu
@@ -418,7 +444,7 @@ export default function Navigation() {
                           My Order
                         </MenuItem>
 
-                        <MenuItem>Logout</MenuItem>
+                        <MenuItem onClick={handleLogout}>Logout</MenuItem>
                       </Menu>
                     </div>
                   ) : (

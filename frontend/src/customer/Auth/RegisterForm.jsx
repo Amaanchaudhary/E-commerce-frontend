@@ -1,22 +1,33 @@
 import { Button, Grid, TextField } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser, register } from "../../state/Auth/Action";
 
 const RegisterForm = () => {
-
   const Navigate = useNavigate();
+  const dispatch = useDispatch();
+  const jwt = localStorage.getItem("jwt");
+  const { auth } = useSelector((store) => store);
+  
+
+  useEffect(() => {
+    if (jwt) {
+      dispatch(getUser(jwt));
+    }
+  }, [jwt, auth.jwt]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     const userData = {
-      firstName: data.get("firstName"),
-      lastName: data.get("lastName"),
+      firstname: data.get("firstName"),
+      lastname: data.get("lastName"),
       email: data.get("email"),
       password: data.get("password"),
     };
-
-    console.log(userData, "userData");
+    dispatch(register(userData));
+    // console.log(userData, "userData");
   };
 
   return (
@@ -84,7 +95,13 @@ const RegisterForm = () => {
       <div className="flex flex-col items-center justify-center">
         <div className="py-3 flex item-center">
           <p>If you have already accouunt ? </p>
-          <Button onClick={() => Navigate("/login")} className="ml-5" size="small">Login</Button>
+          <Button
+            onClick={() => Navigate("/login")}
+            className="ml-5"
+            size="small"
+          >
+            Login
+          </Button>
         </div>
       </div>
     </div>

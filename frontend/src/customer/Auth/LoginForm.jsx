@@ -10,8 +10,8 @@ const LoginForm = () => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     const userData = {
-      firstName: data.get("firstName"),
-      lastName: data.get("lastName"),
+      firstname: data.get("firstName"),
+      lastname: data.get("lastName"),
       email: data.get("email"),
       password: data.get("password"),
     };
