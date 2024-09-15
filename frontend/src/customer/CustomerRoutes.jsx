@@ -24,7 +24,7 @@ const CustomerRoutes = () => {
           <Route path="/" element={<Homepage />} />
           <Route path="/cart" element={<Cart />} />
           <Route
-            path="/:levelOne/:levelTwo/:LevelThree"
+            path="/:levelOne/:levelTwo/:levelThree"
             element={<Products />}
           />
           <Route path="/product/:productId" element={<ProductDetails />} />

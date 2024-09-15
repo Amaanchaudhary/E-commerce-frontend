@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import {
@@ -19,7 +19,9 @@ import {
   RadioGroup,
 } from "@mui/material";
 import FilterListIcon from "@mui/icons-material/FilterList";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { findProducts } from "../../../state/product/Action";
 
 const sortOptions = [
   { name: "Price: Low to High", href: "#", current: false },
@@ -34,6 +36,20 @@ export default function Products() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const location = useLocation();
   const Navigate = useNavigate();
+  const params = useParams();
+  console.log(params, "pars");
+  
+  const dispatch = useDispatch();
+
+  const decodedQueryString = decodeURIComponent(location.search);
+  const searchParamms = new URLSearchParams(decodedQueryString);
+  const colorValue = searchParamms.get("color");
+  const sizeValue = searchParamms.get("size");
+  const priceValue = searchParamms.get("price");
+  const disccount = searchParamms.get("disccount");
+  const sortValue = searchParamms.get("sort");
+  const pageNumber = searchParamms.get("page") || 1;
+  const stock = searchParamms.get("stock");
 
   const handleFilter = (value, secionId) => {
     const searchParamms = new URLSearchParams(location.search);
@@ -56,13 +72,41 @@ export default function Products() {
     Navigate({ search: `${query}` });
   };
 
-  const handleRadioFilterChange = (e , sectionId) => {
-    const searchParamms = new URLSearchParams(location.search)
+  const handleRadioFilterChange = (e, sectionId) => {
+    const searchParamms = new URLSearchParams(location.search);
 
-    searchParamms.set(sectionId , e.target.value)
+    searchParamms.set(sectionId, e.target.value);
     const query = searchParamms.toString();
     Navigate({ search: `${query}` });
-  }
+  };
+
+  useEffect(() => {
+    const [minPrice, maxPrice] =
+      priceValue === null ? [0, 10000] : priceValue.split("-").map(Number);
+
+    const data = {
+      category: params.levelThree,
+      colors: colorValue || [],
+      sizes: sizeValue || [],
+      maxPrice,
+      minPrice,
+      minDiscount: disccount || 0,
+      sort: sortValue || "price_low",
+      pageNumber: pageNumber || 1,
+      pageSize : 10,
+      stock: stock,
+    };
+    dispatch(findProducts(data));
+  }, [
+    params.levelThree,
+    colorValue,
+    sizeValue,
+    priceValue,
+    disccount,
+    sortValue,
+    pageNumber,
+    stock,
+  ]);
 
   return (
     <div className="bg-white">
@@ -365,7 +409,9 @@ export default function Products() {
                                   {section.options.map((option, optionIdx) => (
                                     <>
                                       <FormControlLabel
-                                      onChange={(e) => handleRadioFilterChange(e,section.id)}
+                                        onChange={(e) =>
+                                          handleRadioFilterChange(e, section.id)
+                                        }
                                         value={option.value}
                                         control={<Radio />}
                                         label={option.label}
