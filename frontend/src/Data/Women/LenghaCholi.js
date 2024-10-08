@@ -24,9 +24,9 @@ export const lengha_page1 = [
       "discountPersent": "10% off",
       description:
         "Yellow Readymade Lehenga in Net fabric  The Lehenga is embellished with Mirrorwork embroidery Accompanied with an Readymade blouse and dupattaComes with the Koskii promise of premium quality",
-        "topLavelCategory": "Women",
-        "secondLavelCategory": "Clothing",
-        "thirdLavelCategory": "lengha_choli",
+        "topLevelCategory": "Women",
+        "secondLevelCategory": "Clothing",
+        "thirdLevelCategory": "lengha_choli",
     },
     {
       "imageUrl":

@@ -20,7 +20,7 @@ import {
 } from "@mui/material";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { findProducts } from "../../../state/product/Action";
 
 const sortOptions = [
@@ -38,7 +38,8 @@ export default function Products() {
   const Navigate = useNavigate();
   const params = useParams();
   console.log(params, "pars");
-  
+  const { product } = useSelector((store) => store);
+
   const dispatch = useDispatch();
 
   const decodedQueryString = decodeURIComponent(location.search);
@@ -93,7 +94,7 @@ export default function Products() {
       minDiscount: disccount || 0,
       sort: sortValue || "price_low",
       pageNumber: pageNumber || 1,
-      pageSize : 10,
+      pageSize: 10,
       stock: stock,
     };
     dispatch(findProducts(data));
@@ -432,7 +433,7 @@ export default function Products() {
               {/* Product grid */}
               <div className="lg:col-span-4 w-full ">
                 <div className="flex flex-wrap justify-center bg-white py-5">
-                  {mens_kurta.map((item) => (
+                  {product?.products?.content?.map((item) => (
                     <ProductCard product={item} />
                   ))}
                 </div>
