@@ -47,10 +47,10 @@ export default function Products() {
   const colorValue = searchParamms.get("color");
   const sizeValue = searchParamms.get("size");
   const priceValue = searchParamms.get("price");
-  const disccount = searchParamms.get("disccount");
+  const disccount = searchParamms.get("discount");
   const sortValue = searchParamms.get("sort");
   const pageNumber = searchParamms.get("page") || 1;
-  const stock = searchParamms.get("stock");
+  const stock = searchParamms.get("availability");
 
   const handleFilter = (value, secionId) => {
     const searchParamms = new URLSearchParams(location.search);
