@@ -64,11 +64,10 @@ function classNames(...classes) {
 export default function ProductDetails() {
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [selectedSize, setSelectedSize] = useState(product.sizes[2]);
-const navigate = useNavigate();
+  const navigate = useNavigate();
   const handleAddToCart = () => {
-    navigate("/cart")
-
-  }
+    navigate("/cart");
+  };
   return (
     <div className="bg-white lg:px-20">
       <div className="pt-6">
@@ -246,9 +245,15 @@ const navigate = useNavigate();
                   </RadioGroup>
                 </div>
 
-                <Button onClick={handleAddToCart}
+                <Button
+                  onClick={handleAddToCart}
                   variant="contained"
-                  sx={{ px: ["0.75rem","2rem"], py: ["0.50rem","1rem"], bgcolor: "#9155fd"}}>
+                  sx={{
+                    px: ["0.75rem", "2rem"],
+                    py: ["0.50rem", "1rem"],
+                    bgcolor: "#9155fd",
+                  }}
+                >
                   Add to Cart
                 </Button>
               </form>
@@ -350,7 +355,12 @@ const navigate = useNavigate();
                     </Grid>
                     <Grid item xs={7}>
                       <LinearProgress
-                        sx={{ bgcolor: "#d0d0d0", borderRadius: 4, height: 7, color:"yellow" }}
+                        sx={{
+                          bgcolor: "#d0d0d0",
+                          borderRadius: 4,
+                          height: 7,
+                          color: "yellow",
+                        }}
                         variant="determinate"
                         value={25}
                       />
@@ -392,12 +402,13 @@ const navigate = useNavigate();
 
         {/* Similar Products */}
         <section className="pt-10">
-            <h1 className="py-5 font-bold text-xl">Similar Products</h1>
+          <h1 className="py-5 font-bold text-xl">Similar Products</h1>
 
-            <div className="flex flex-wrap space-y-5">
-                  {mens_kurta.map((item) =>  <HomeSectionCard product={item} />)}
-            </div>
-
+          <div className="flex flex-wrap space-y-5">
+            {mens_kurta.map((item) => (
+              <HomeSectionCard product={item} />
+            ))}
+          </div>
         </section>
       </div>
     </div>

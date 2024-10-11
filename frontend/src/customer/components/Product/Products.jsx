@@ -15,6 +15,7 @@ import {
   FormControl,
   FormControlLabel,
   FormLabel,
+  Pagination,
   Radio,
   RadioGroup,
 } from "@mui/material";
@@ -35,7 +36,7 @@ function classNames(...classes) {
 export default function Products() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const location = useLocation();
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   const params = useParams();
   console.log(params, "pars");
   const { product } = useSelector((store) => store);
@@ -70,7 +71,7 @@ export default function Products() {
       searchParamms.set(secionId, filterValue.join(","));
     }
     const query = searchParamms.toString();
-    Navigate({ search: `${query}` });
+    navigate({ search: `${query}` });
   };
 
   const handleRadioFilterChange = (e, sectionId) => {
@@ -78,7 +79,14 @@ export default function Products() {
 
     searchParamms.set(sectionId, e.target.value);
     const query = searchParamms.toString();
-    Navigate({ search: `${query}` });
+    navigate({ search: `${query}` });
+  };
+
+  const handlePaginationChange = (event, value) => {
+    const searchParams = new URLSearchParams(location.search);
+    searchParams.set("page", value);
+    const query = searchParams.toString();
+    navigate({ search: `?${query}` });
   };
 
   useEffect(() => {
@@ -94,7 +102,7 @@ export default function Products() {
       minDiscount: disccount || 0,
       sort: sortValue || "price_low",
       pageNumber: pageNumber || 1,
-      pageSize: 10,
+      pageSize: 2,
       stock: stock,
     };
     dispatch(findProducts(data));
@@ -433,11 +441,22 @@ export default function Products() {
               {/* Product grid */}
               <div className="lg:col-span-4 w-full ">
                 <div className="flex flex-wrap justify-center bg-white py-5">
-                  {product?.products?.content?.map((item) => (
-                    <ProductCard product={item} />
-                  ))}
+                  {product?.products &&
+                    product?.products?.content?.map((item) => (
+                      <ProductCard product={item} />
+                    ))}
                 </div>
               </div>
+            </div>
+          </section>
+
+          <section className="w-full px=[3.6rem]">
+            <div className="px-4 py-5 flex justify-center">
+              <Pagination
+                count={product?.products?.totalPages}
+                onChange={handlePaginationChange}
+                color="secondary"
+              />
             </div>
           </section>
         </main>
