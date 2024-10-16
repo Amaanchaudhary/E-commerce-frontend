@@ -5,7 +5,11 @@ import { Box, Button, Grid, LinearProgress, Rating } from "@mui/material";
 import ProductsReviewCard from "./ProductsReviewCard";
 import { mens_kurta } from "../../../Data/Men/men_kurta";
 import HomeSectionCard from "../HomeSectionCard/HomeSectionCard";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { findProducts, findProductsById } from "../../../state/product/Action";
+import { addItemToCart } from "../../../state/cart/Action";
 
 const product = {
   name: "Basic Tee 6-Pack",
@@ -55,6 +59,7 @@ const product = {
   details:
     'The 6-Pack includes two black, two white, and two heather gray Basic Tees. Sign up for our subscription service and be the first to get new, exciting colors, like our upcoming "Charcoal Gray" limited release.',
 };
+
 const reviews = { href: "#", average: 4, totalCount: 117 };
 
 function classNames(...classes) {
@@ -62,12 +67,25 @@ function classNames(...classes) {
 }
 
 export default function ProductDetails() {
-  const [selectedColor, setSelectedColor] = useState(product.colors[0]);
-  const [selectedSize, setSelectedSize] = useState(product.sizes[2]);
   const navigate = useNavigate();
+  const { productId } = useParams();
+  const dispatch = useDispatch();
+  const store = useSelector((state) => state);
+  const productDetail = store?.product?.product;
+
+  const [selectedColor, setSelectedColor] = useState(product?.colors[0]);
+  const [selectedSize, setSelectedSize] = useState(product?.sizes[2]);
+
   const handleAddToCart = () => {
+    const data = { productId, size: selectedSize };
+    dispatch(addItemToCart(data));
     navigate("/cart");
   };
+
+  useEffect(() => {
+    dispatch(findProductsById(productId));
+  }, [productId]);
+
   return (
     <div className="bg-white lg:px-20">
       <div className="pt-6">
@@ -109,12 +127,13 @@ export default function ProductDetails() {
             </li>
           </ol>
         </nav>
+
         <section className="grid grid-col-1 lg:grid-cols-2 gap-x-8 gap-y-10 px-4 pt-10">
           {/* Image gallery */}
           <div className="flex flex-col items-center">
             <div className="overflow-hidden rounded-lg max-w-[30rem] max-h-[35rem]">
               <img
-                src={product.images[0].src}
+                src={productDetail?.imageUrl}
                 alt={product.images[0].alt}
                 className="h-full w-full object-cover object-center"
               />
@@ -139,10 +158,10 @@ export default function ProductDetails() {
           >
             <div className="lg:col-span-2 ">
               <h1 className="text-lg lg:text-xl font-semibold text-gray-900">
-                Universal Outfit
+                {productDetail?.brand}
               </h1>
               <h1 className="text-lg lg:text-xl text-gray-900 opacity-60 pt-1">
-                Casual puff sleves Solid Women White top
+                {productDetail?.title}
               </h1>
             </div>
 
@@ -150,9 +169,15 @@ export default function ProductDetails() {
             <div className="mt-4 lg:row-span-3 lg:mt-0">
               <h2 className="sr-only">Product information</h2>
               <div className="flex space-x-5 item-center text-lg lg:text-xl text-gray-900 mt-6">
-                <p className="font-semibold">₹199</p>
-                <p className="opacity-50 line-through">₹211</p>
-                <p className="text-green-600 font-semibold">5% off</p>
+                <p className="font-semibold">
+                  ₹{productDetail?.discountedPrice}
+                </p>
+                <p className="opacity-50 line-through">
+                  ₹{productDetail?.price}
+                </p>
+                <p className="text-green-600 font-semibold">
+                  {productDetail?.discountPercent}% Off
+                </p>
               </div>
 
               {/* Reviews */}
