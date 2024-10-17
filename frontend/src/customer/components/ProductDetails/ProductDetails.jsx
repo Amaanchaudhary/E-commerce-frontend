@@ -77,7 +77,7 @@ export default function ProductDetails() {
   const [selectedSize, setSelectedSize] = useState(product?.sizes[2]);
 
   const handleAddToCart = () => {
-    const data = { productId, size: selectedSize };
+    const data = { productId, size: selectedSize.name };
     dispatch(addItemToCart(data));
     navigate("/cart");
   };
