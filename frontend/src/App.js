@@ -9,13 +9,15 @@ import Checkout from './customer/components/Checkout/Checkout';
 import Order from './customer/components/Order/Order';
 import OrderDetails from './customer/components/Order/OrderDetails';
 import { Route, Routes } from 'react-router-dom';
-import CustomerRoutes from './customer/CustomerRoutes';
+import CustomerRoutes from './Routers/CustomerRoutes';
+import AdminRoutes from './Routers/AdminRoutes';
 
 function App() {
   return (
     <div className="">
       <Routes>
         <Route path='/*' element={<CustomerRoutes />} />
+        <Route path='/admin/*' element={<AdminRoutes />} />
       </Routes>
     </div>
   );

@@ -1,14 +1,14 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import Homepage from "./pages/Homepage/Homepage";
-import Cart from "./components/Cart/Cart";
-import Footer from "./components/Footer/Footer";
-import Navigation from "./components/Navigation/Navigations";
-import Products from "./components/Product/Products";
-import ProductDetails from "./components/ProductDetails/ProductDetails";
-import Checkout from "./components/Checkout/Checkout";
-import Order from "./components/Order/Order";
-import OrderDetails from "./components/Order/OrderDetails";
+import Homepage from "../customer/pages/Homepage/Homepage";
+import Cart from "../customer/components/Cart/Cart";
+import Footer from "../customer/components/Footer/Footer";
+import Navigation from "../customer/components/Navigation/Navigations";
+import Products from "../customer/components/Product/Products";
+import ProductDetails from "../customer/components/ProductDetails/ProductDetails";
+import Checkout from "../customer/components/Checkout/Checkout";
+import Order from "../customer/components/Order/Order";
+import OrderDetails from "../customer/components/Order/OrderDetails";
 
 const CustomerRoutes = () => {
   return (
