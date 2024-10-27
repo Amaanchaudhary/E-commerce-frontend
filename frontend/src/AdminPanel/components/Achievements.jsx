@@ -26,7 +26,7 @@ const Achievements = () => {
           Shop with Zosh
         </Typography>
         <Typography variant="body2">Congratulations 🥳</Typography>
-        <Typography variant="h5" sx={{ my: 2.5 }}>
+        <Typography variant="h5" sx={{ my: 3.1 }}>
           420.8k
         </Typography>
         <Button size="small" variant="contained">

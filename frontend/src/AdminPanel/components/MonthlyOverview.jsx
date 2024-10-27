@@ -19,25 +19,25 @@ const salesData = [
   {
     stats: "245k",
     title: "Sales",
-    color: "primary",
+    color: "#E5D68A",
     icon: <ShowChartIcon sx={{ fontSize: "1.75rem" }} />,
   },
   {
     stats: "12.5k",
     title: "Customers",
-    color: "success",
+    color: "#22CB5C",
     icon: <AccountCircleIcon sx={{ fontSize: "1.75rem" }} />,
   },
   {
     stats: "1.54k",
     title: "Products",
-    color: "warning",
+    color: "#DE4839",
     icon: <SmartphoneIcon sx={{ fontSize: "1.75rem" }} />,
   },
   {
     stats: "88k",
     title: "Revenue",
-    color: "info",
+    color: "#12B0E8",
     icon: <AttachMoneyIcon sx={{ fontSize: "1.75rem" }} />,
   },
 ];
@@ -54,8 +54,8 @@ const renderStats = () => {
             height: 44,
             boxShadow: 3,
             color: "common.white",
-            // background: `${item.color}`,
-            backgroundColor: 'info'
+            backgroundColor: `${item.color}`,
+            // backgroundColor: 'green'
           }}
         >
           {item.icon}
