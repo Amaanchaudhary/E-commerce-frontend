@@ -7,19 +7,35 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
+import { findProducts } from "../../state/product/Action";
+import { useDispatch, useSelector } from "react-redux";
 
 const ProductTable = () => {
+  const dispatch = useDispatch();
+  const products = useSelector((store) => store);
+
+  console.log(products, "products");
+
   function createData(name, calories, fat, carbs, protein) {
     return { name, calories, fat, carbs, protein };
   }
-  const rows = [
-    createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-    createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-    createData("Eclair", 262, 16.0, 24, 6.0),
-    createData("Cupcake", 305, 3.7, 67, 4.3),
-    createData("Gingerbread", 356, 16.0, 49, 3.9),
-  ];
+
+  useEffect(() => {
+    const data = {
+      category: "",
+      colors: [],
+      sizes: [],
+      maxPrice: 100000,
+      minPrice: 0,
+      minDiscount: 0,
+      sort: "price_low",
+      pageNumber: 1,
+      pageSize: 10,
+      stock: "",
+    };
+    dispatch(findProducts(data));
+  }, []);
 
   return (
     <div>
@@ -35,13 +51,13 @@ const ProductTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows?.map((row) => (
+            {products?.product?.products?.content?.map((row) => (
               <TableRow
-                key={row.name}
+                key={row.title}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {row.name}
+                  {row.title}
                 </TableCell>
                 <TableCell align="right">{row.calories}</TableCell>
                 <TableCell align="right">{row.fat}</TableCell>
