@@ -1,4 +1,8 @@
 import {
+  Avatar,
+  Button,
+  Card,
+  CardHeader,
   Paper,
   Table,
   TableBody,
@@ -30,44 +34,51 @@ const ProductTable = () => {
       minPrice: 0,
       minDiscount: 0,
       sort: "price_low",
-      pageNumber: 1,
-      pageSize: 10,
+      pageNumber: 0,
+      pageSize: 5,
       stock: "",
     };
     dispatch(findProducts(data));
   }, []);
 
   return (
-    <div>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Dessert (100g serving)</TableCell>
-              <TableCell align="right">Calories</TableCell>
-              <TableCell align="right">Fat&nbsp;(g)</TableCell>
-              <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-              <TableCell align="right">Protein&nbsp;(g)</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {products?.product?.products?.content?.map((row) => (
-              <TableRow
-                key={row.title}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {row.title}
-                </TableCell>
-                <TableCell align="right">{row.calories}</TableCell>
-                <TableCell align="right">{row.fat}</TableCell>
-                <TableCell align="right">{row.carbs}</TableCell>
-                <TableCell align="right">{row.protein}</TableCell>
+    <div className="p-5">
+      <Card className="mt-2">
+        <CardHeader title="All Products" />
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Image</TableCell>
+                <TableCell align="left">Title</TableCell>
+                <TableCell align="left">Category</TableCell>
+                <TableCell align="left">Price</TableCell>
+                <TableCell align="left">Quantity</TableCell>
+                <TableCell align="left">Delete</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {products?.product?.products?.content?.map((row) => (
+                <TableRow
+                  key={row.title}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell align="left">
+                    <Avatar src={row.imageUrl}></Avatar>
+                  </TableCell>
+                  <TableCell align="left">{row.title}</TableCell>
+                  <TableCell align="left">{row.category.name}</TableCell>
+                  <TableCell align="left">{row.price}</TableCell>
+                  <TableCell align="left">{row.quantity}</TableCell>
+                  <TableCell align="left">
+                    <Button variant="outlined">Delete</Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Card>
     </div>
   );
 };
