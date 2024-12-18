@@ -12,7 +12,7 @@ import {
   TableRow,
 } from "@mui/material";
 import React, { useEffect } from "react";
-import { findProducts } from "../../state/product/Action";
+import { deleteProduct, findProducts } from "../../state/product/Action";
 import { useDispatch, useSelector } from "react-redux";
 
 const ProductTable = () => {
@@ -20,6 +20,10 @@ const ProductTable = () => {
   const products = useSelector((store) => store);
 
   console.log(products, "products");
+
+  const handleProductDelete = (productId) => {
+    dispatch(deleteProduct(productId));
+  };
 
   function createData(name, calories, fat, carbs, protein) {
     return { name, calories, fat, carbs, protein };
@@ -71,7 +75,12 @@ const ProductTable = () => {
                   <TableCell align="left">{row.price}</TableCell>
                   <TableCell align="left">{row.quantity}</TableCell>
                   <TableCell align="left">
-                    <Button variant="outlined">Delete</Button>
+                    <Button
+                      onClick={() => handleProductDelete(row._id)}
+                      variant="outlined"
+                    >
+                      Delete
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}
