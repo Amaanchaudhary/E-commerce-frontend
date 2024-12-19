@@ -34,12 +34,12 @@ const ProductTable = () => {
       category: "",
       colors: [],
       sizes: [],
-      maxPrice: 100000,
-      minPrice: 0,
-      minDiscount: 0,
+      maxPrice: "",
+      minPrice: "",
+      minDiscount: "",
       sort: "price_low",
-      pageNumber: 0,
-      pageSize: 5,
+      pageNumber: 1,
+      pageSize: 10,
       stock: "",
     };
     dispatch(findProducts(data));
