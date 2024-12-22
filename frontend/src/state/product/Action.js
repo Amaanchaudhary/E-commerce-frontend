@@ -32,8 +32,9 @@ export const findProductsById = (productId) => async (dispatch) => {
 export const createProduct = (product) => async (dispatch) => {
   try {
     dispatch({ type: CREATE_PRODUCT_REQUEST })
-    const { data } = await api.post(`/api/admin/product`,
-      product.data)
+    const { data } = await api.post(`/api/admin/product`, product)
+    console.log("created product", data);
+    
     dispatch({ type: CREATE_PRODUCT_SUCCESS, payload: data })
   } catch (error) {
     dispatch({ type: CREATE_PRODUCT_FAILURE, payload: error.message })
