@@ -47,12 +47,14 @@ const CreateProducts = () => {
 
   const handleSizeChange = (e, index) => {
     let { name, value } = e.target;
+    // console.log(name , value , "check");
+    
     name === "size_quantity" ? (name = "quantity") : (name = e.target.name);
-    const sizes = [...productData.sizes];
+    const sizes = [...productData.size];
     sizes[index][name] = value;
     setProductData((prevData) => ({
       ...prevData,
-      sizes: sizes,
+      size: sizes,
     }));
   };
 
@@ -63,7 +65,7 @@ const CreateProducts = () => {
   };
 
   return (
-    <Fragment className="createProductContainer">
+    <div className="p-10">
       <Typography
         variant="h3"
         sx={{ textAlign: "center" }}
@@ -73,9 +75,9 @@ const CreateProducts = () => {
       </Typography>
       <form
         onSubmit={handleSubmit}
-        className="createProductContainer min-h-screen"
+        className="createProductContainer min-h-screen "
       >
-        <Grid container spacing={2}>
+        <Grid container spacing={2} >
           <Grid item xs={12}>
             <TextField
               fullWidth
@@ -85,6 +87,7 @@ const CreateProducts = () => {
               onChange={handleChange}
             />
           </Grid>
+
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
@@ -126,7 +129,7 @@ const CreateProducts = () => {
             />
           </Grid>
 
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={4}>
             <TextField
               fullWidth
               label="Price"
@@ -137,7 +140,7 @@ const CreateProducts = () => {
             />
           </Grid>
 
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={4}>
             <TextField
               fullWidth
               label="Discounted Price"
@@ -148,7 +151,18 @@ const CreateProducts = () => {
             />
           </Grid>
 
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={4}>
+            <TextField
+              fullWidth
+              label="Discount Percent"
+              name="discountPercent"
+              value={productData.discountPercent}
+              onChange={handleChange}
+              type="number"
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={4}>
             <FormControl fullWidth>
               <InputLabel>Top Level category</InputLabel>
               <Select
@@ -164,7 +178,7 @@ const CreateProducts = () => {
             </FormControl>
           </Grid>
 
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={4}>
             <FormControl fullWidth>
               <InputLabel>Second Level category</InputLabel>
               <Select
@@ -180,7 +194,7 @@ const CreateProducts = () => {
             </FormControl>
           </Grid>
 
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={4}>
             <FormControl fullWidth>
               <InputLabel>Third Level category</InputLabel>
               <Select
@@ -192,8 +206,9 @@ const CreateProducts = () => {
                 <MenuItem value="top">Tops</MenuItem>
                 <MenuItem value="women_dress">Dresses</MenuItem>
                 <MenuItem value="t-shirts">T-shirts</MenuItem>
+                <MenuItem value="lengha_choli">Shirt</MenuItem>
                 <MenuItem value="saree">Saree</MenuItem>
-                <MenuItem value="lengha_choli">Lengha Choli</MenuItem>
+                <MenuItem value="shirt">Lengha Choli</MenuItem>
               </Select>
             </FormControl>
           </Grid>
@@ -210,8 +225,9 @@ const CreateProducts = () => {
               value={productData.description}
             />
           </Grid>
-          {productData.size.map((size, index) => (
-            <Grid container item spacing={3}>
+          
+          {productData?.size?.map((size, index) => (
+            <Grid key={index} container item spacing={3}>
               <Grid item xs={12} sm={6}>
                 <TextField
                   label="Sizes Name"
@@ -228,7 +244,7 @@ const CreateProducts = () => {
                   label="Quantity"
                   name="size_quantity"
                   type="number"
-                  value={size.name}
+                  value={size.quantity}
                   onChange={(event) => handleSizeChange(event, index)}
                   required
                   fullWidth
@@ -236,6 +252,7 @@ const CreateProducts = () => {
               </Grid>
             </Grid>
           ))}
+
           <Grid item xs={12}>
             <Button
               variant="contained"
@@ -249,7 +266,7 @@ const CreateProducts = () => {
           </Grid>
         </Grid>
       </form>
-    </Fragment>
+    </div>
   );
 };
 
