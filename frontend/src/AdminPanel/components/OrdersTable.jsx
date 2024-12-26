@@ -13,11 +13,23 @@ import {
   TableHead,
   TableRow,
   TableBody,
+  AvatarGroup,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 
 const OrdersTable = () => {
   const dispatch = useDispatch();
   const { adminOrder } = useSelector((state) => state);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   useEffect(() => {
     dispatch(getOrder());
@@ -35,28 +47,65 @@ const OrdersTable = () => {
               <TableRow>
                 <TableCell>Image</TableCell>
                 <TableCell align="left">Title</TableCell>
-                <TableCell align="left">Category</TableCell>
+                <TableCell align="left">Id</TableCell>
                 <TableCell align="left">Price</TableCell>
-                <TableCell align="left">Quantity</TableCell>
+                <TableCell align="left">Status</TableCell>
+                <TableCell align="left">Update</TableCell>
                 <TableCell align="left">Delete</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {products?.product?.products?.content?.map((row) => (
+              {adminOrder?.orders?.map((item) => (
                 <TableRow
-                  key={row.title}
+                  key={item._id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell align="left">
-                    <Avatar src={row.imageUrl}></Avatar>
+                    <AvatarGroup max={3} sx={{ justifyContent: "start" }}>
+                      {item.orderItems.map((orderItem, index) => (
+                        <Avatar
+                          key={index}
+                          src={orderItem?.product?.imageUrl}
+                        ></Avatar>
+                      ))}
+                    </AvatarGroup>
                   </TableCell>
-                  <TableCell align="left">{row.title}</TableCell>
-                  <TableCell align="left">{row.category.name}</TableCell>
-                  <TableCell align="left">{row.price}</TableCell>
-                  <TableCell align="left">{row.quantity}</TableCell>
+                  <TableCell align="left" scope="row">
+                    {item.orderItems.map((orderItem) => (
+                      <p>{orderItem?.product?.title}</p>
+                    ))}
+                  </TableCell>
+
+                  <TableCell align="left">{item?.totalItems}</TableCell>
+                  <TableCell align="left">{item?.totalPrice}</TableCell>
+                  <TableCell align="left">{item?.orderStatus}</TableCell>
                   <TableCell align="left">
                     <Button
-                      onClick={() => handleProductDelete(row._id)}
+                      id="basic-button"
+                      aria-controls={open ? "basic-menu" : undefined}
+                      aria-haspopup="true"
+                      aria-expanded={open ? "true" : undefined}
+                      onClick={handleClick}
+                    >
+                      Status
+                    </Button>
+                    <Menu
+                      id="basic-menu"
+                      anchorEl={anchorEl}
+                      open={open}
+                      onClose={handleClose}
+                      MenuListProps={{
+                        "aria-labelledby": "basic-button",
+                      }}
+                    >
+                      <MenuItem onClick={handleClose}>Order Confirmed</MenuItem>
+                      <MenuItem onClick={handleClose}>Order Shipped</MenuItem>
+                      <MenuItem onClick={handleClose}>Order Delivered</MenuItem>
+                    </Menu>
+                  </TableCell>
+                  <TableCell align="left">
+                    <Button
+                      onClick={() => handleProductDelete(item._id)}
                       variant="outlined"
                     >
                       Delete
