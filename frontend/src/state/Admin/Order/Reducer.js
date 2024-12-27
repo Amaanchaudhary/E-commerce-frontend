@@ -40,7 +40,7 @@ const adminOrderReducer = (state = initailState, action) => {
     case PLACED_ORDER_FAILURE:
     case DELIVERED_ORDER_FAILURE:
     case CANCELED_ORDER_FAILURE:
-      return { ...state, error: action.paylaod, isLoading: false }
+      return { ...state, error: action.payload, isLoading: false }
 
     // delete order cases 
     case DELETE_ORDER_REQUEST:
