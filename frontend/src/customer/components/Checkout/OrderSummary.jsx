@@ -14,6 +14,10 @@ const OrderSummary = () => {
   const searchParams = new URLSearchParams(location.search);
   const orderId = searchParams.get("order_id");
 
+  const handleCheckout = () => {
+    dispatch(createPayment(orderId))
+  }
+
   useEffect(() => {
     dispatch(getOrderById(orderId));
   }, [orderId]);
@@ -33,7 +37,7 @@ const OrderSummary = () => {
           </div>
 
           <div className="px-5 sticky top-0 h-[100vh] mt-5 lg:mt-0 ">
-            <div className="border">
+            <div className="border border-gray-200 rounded-xl p-2">
               <p className="uppercase font-bold opacity-60 pb-4">
                 Price Details
               </p>
@@ -45,7 +49,9 @@ const OrderSummary = () => {
                 </div>
                 <div className="flex justify-between pt-3 ">
                   <span>Discount</span>
-                  <span className="text-green-600">-₹{order.order?.discounte}</span>
+                  <span className="text-green-600">
+                    -₹{order.order?.discounte}
+                  </span>
                 </div>
                 <div className="flex justify-between pt-3 ">
                   <span>Delivery Charge</span>
@@ -53,7 +59,9 @@ const OrderSummary = () => {
                 </div>
                 <div className="flex justify-between pt-3 font-bold">
                   <span>Total Amount</span>
-                  <span className="text-green-600">₹{order.order?.totalDiscountedPrice}</span>
+                  <span className="text-green-600">
+                    ₹{order.order?.totalDiscountedPrice}
+                  </span>
                 </div>
               </div>
               <Button
@@ -64,6 +72,7 @@ const OrderSummary = () => {
                   py: ["0.50rem", "1rem"],
                   bgcolor: "#9155fd",
                 }}
+                onClick={handleCheckout}
               >
                 Checkout
               </Button>

@@ -58,7 +58,7 @@ export const cartReducer = (state = initialState, action) => {
     case REMOVE_CART_ITEM_SUCCESS:
       return {
         ...state,
-        removeCartItem : action.payload,
+        removeCartItem: action.payload,
         loading: false
       }
     case UPDATE_CART_ITEM_SUCCESS:
@@ -74,6 +74,7 @@ export const cartReducer = (state = initialState, action) => {
         error: action.payload,
         loading: false
       }
+
     default:
       return state;
   }

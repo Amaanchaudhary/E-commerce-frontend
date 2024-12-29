@@ -19,7 +19,7 @@ const Achievements = () => {
   return (
     <Card
       className=""
-      sx={{ position: "relative", bgcolor: "#242B2E", color: "white" }}
+      sx={{ position: "relative" }}
     >
       <CardContent>
         <Typography variant="h6" sx={{ letterSpacing: ".25px" }}>

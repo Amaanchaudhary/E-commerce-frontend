@@ -69,7 +69,7 @@ export const deleteOrder = (orderId) => async (dispatch) => {
   try {
     const response = await api.put(`/api/admin/orders/${orderId}/delete`)
     console.log("delete order", response.data);
-    dispatch({ type: DELETE_ORDER_SUCCESS, payload: response.data })
+    dispatch({ type: DELETE_ORDER_SUCCESS, payload: orderId })
   } catch (error) {
     console.log("catch error", error);
     dispatch({ type: DELETE_ORDER_FAILURE, payload: error.message })
