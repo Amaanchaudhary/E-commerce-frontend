@@ -56,9 +56,7 @@ const PaymentSuccess = () => {
           >
             <Grid item xs={6}>
               <div className="flex items-center">
-                <img className="w-[5-rem] h-[5rem] object-cover object-top">
-                </img>
-
+                <img className="w-[5-rem] h-[5rem] object-cover object-top"></img>
               </div>
             </Grid>
           </Grid>

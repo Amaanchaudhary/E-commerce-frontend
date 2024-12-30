@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getOrderById } from "../../../state/Order/Action";
 import { useLocation } from "react-router-dom";
+import { createPayment } from "../../../state/payment/Action";
 
 const OrderSummary = () => {
   const dispatch = useDispatch();
