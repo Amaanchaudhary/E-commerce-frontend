@@ -206,7 +206,7 @@ const CreateProducts = () => {
                 <MenuItem value="top">Tops</MenuItem>
                 <MenuItem value="women_dress">Dresses</MenuItem>
                 <MenuItem value="t-shirts">T-shirts</MenuItem>
-                <MenuItem value="lengha_choli">Shirt</MenuItem>
+                <MenuItem value="shirt">Shirt</MenuItem>
                 <MenuItem value="saree">Saree</MenuItem>
                 <MenuItem value="shirt">Lengha Choli</MenuItem>
               </Select>

@@ -10,6 +10,12 @@ const DeliveryAddForm = () => {
   const navigate = useNavigate();
   const auth = useSelector((state) => state.auth);
 
+  const handleDeliverHere = (address) => {
+    const orderData = { address, navigate };
+    dispatch(createOrder(orderData));
+    console.log("Delivering to:", address);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
@@ -45,6 +51,7 @@ const DeliveryAddForm = () => {
                   sx={{ mt: 1, bgcolor: "RGB(145 85 253)" }}
                   size="large"
                   variant="contained"
+                  onClick={() => handleDeliverHere(item)}
                 >
                   Deliver Here
                 </Button>

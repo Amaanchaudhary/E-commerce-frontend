@@ -1,10 +1,11 @@
-import { Alert, AlertTitle } from "@mui/material";
-import React, { useEffect } from "react";
+import { Alert, AlertTitle, Grid } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import OrderTracker from "../Order/OrderTracker";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrderById } from "../../../state/Order/Action";
 import { updatePayment } from "../../../state/payment/Action";
+import AddressCard from "../AddressCard/AddressCard";
 
 const PaymentSuccess = () => {
   const [paymentId, setPaymentId] = useState();
@@ -26,8 +27,8 @@ const PaymentSuccess = () => {
   useEffect(() => {
     if (paymentId) {
       const data = { orderId, paymentId };
-      dispatch(getOrderById(orderId));
       dispatch(updatePayment(data));
+      dispatch(getOrderById(orderId));
     }
   }, [orderId, paymentId]);
 
@@ -56,8 +57,23 @@ const PaymentSuccess = () => {
           >
             <Grid item xs={6}>
               <div className="flex items-center">
-                <img className="w-[5-rem] h-[5rem] object-cover object-top"></img>
+                <img
+                  className="w-[5-rem] h-[5rem] object-cover object-top"
+                  src={item.product?.imageUrl}
+                />
+                <div className="ml-5 space-y-2">
+                  <p>{item.product.title}</p>
+                  <div className="opacity-50 text-xs font-semibold space-x-5">
+                    <span>Color : {item?.product?.color}</span>
+                    <span>Size : {item.size}</span>
+                  </div>
+                  <p>Seller : {item.product.brand}</p>
+                  <p>$ {item.price}</p>
+                </div>
               </div>
+            </Grid>
+            <Grid item>
+              <AddressCard address={order.order?.shippingAddress} />
             </Grid>
           </Grid>
         ))}

@@ -46,6 +46,8 @@ export const removeCartItem = (cartItemId) => async (dispatch) => {
 };
 
 export const updateCartItem = (reqData) => async (dispatch) => {
+  console.log(reqData, "reqData");
+  
   dispatch({ type: UPDATE_CART_ITEM_REQUEST });
   try {
     const { data } = await api.put(
