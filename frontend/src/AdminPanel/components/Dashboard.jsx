@@ -20,17 +20,17 @@ const AdminDashboard = () => {
             <MonthlyOverview />
           </div>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={12}>
           <div className="shadow-gray-600 shadow-lg">
             <OrdersTableView />
           </div>
         </Grid>
 
-        <Grid item xs={12} md={6}>
+        {/* <Grid item xs={12} md={6}>
           <div className="shadow-gray-600 shadow-lg">
             <ProductTableView />
           </div>
-        </Grid>
+        </Grid> */}
       </Grid>
     </div>
   );

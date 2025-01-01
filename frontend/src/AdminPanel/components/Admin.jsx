@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   CssBaseline,
   Drawer,
   List,
@@ -8,11 +9,12 @@ import {
   ListItemIcon,
   ListItemText,
   Toolbar,
+  Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React, { useState } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import EmailIcon from "@mui/icons-material/Email";
 import InboxIcon from "@mui/icons-material/Inbox";
 import DashboardIcon from "@mui/icons-material/Dashboard";
@@ -23,6 +25,11 @@ import OrdersTable from "./OrdersTable";
 import CustomersTable from "./CustomersTable";
 import ProductTable from "./ProductTable";
 import AdminDashboard from "./Dashboard";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser } from "../../state/Auth/Action";
+import AuthModal from "../../customer/Auth/AuthModal";
+import AdminAuthModal from "../../customer/Auth/AdminAuthModal";
+import { getOrder } from "../../state/Admin/Order/Action";
 
 const menu = [
   { name: "Dashboard", path: "/admin", icon: <DashboardIcon /> },
@@ -37,9 +44,31 @@ const menu = [
 ];
 const Admin = () => {
   const theme = useTheme();
+  const dispatch = useDispatch();
   const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
   const [sideBarVisible, setSideBarVisible] = useState(false);
+  const [OpenAuthModal, setOpenAuthModal] = useState(false);
+  const jwt = localStorage.getItem("jwt");
+  const { auth } = useSelector((store) => store);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleOpen = () => {
+    setOpenAuthModal(true);
+  };
+
+  const handleClose = () => {
+    setOpenAuthModal(false);
+  };
+
+  useEffect(() => {
+    if (jwt) {
+      dispatch(getUser(jwt));
+      handleClose();
+    } else {
+      handleOpen();
+    }
+  }, [jwt, auth.jwt]);
 
   const drawer = (
     <Box
@@ -82,20 +111,26 @@ const Admin = () => {
 
   return (
     <div className="relative flex h-[100vh] ">
-      <CssBaseline />
-      <div className="shadow-gray-600 shadow-lg w-[15%]  h-full fixed top-0">
-        {drawer}
-      </div>
+      {auth.user && (
+        <>
+          <CssBaseline />
+          <div className="shadow-gray-600 shadow-lg w-[15%]  h-full fixed top-0">
+            {drawer}
+          </div>
 
-      <div className="w-[85%] h-full ml-[15%]">
-        <Routes>
-          <Route path="/" element={<AdminDashboard />} />
-          <Route path="/product/create" element={<CreateProducts />} />
-          <Route path="/products" element={<ProductTable />} />
-          <Route path="/orders" element={<OrdersTable />} />
-          <Route path="/customers" element={<CustomersTable />} />
-        </Routes>
-      </div>
+          <div className="w-[85%] h-full ml-[15%]">
+            <Routes>
+              <Route path="/" element={<AdminDashboard />} />
+              <Route path="/product/create" element={<CreateProducts />} />
+              <Route path="/products" element={<ProductTable />} />
+              <Route path="/orders" element={<OrdersTable />} />
+              <Route path="/customers" element={<CustomersTable />} />
+            </Routes>
+          </div>
+        </>
+      )}
+
+      <AdminAuthModal handleClose={handleClose} open={OpenAuthModal} />
     </div>
   );
 };

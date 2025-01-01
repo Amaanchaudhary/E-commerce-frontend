@@ -14,22 +14,34 @@ import { useLocation, useNavigate } from "react-router-dom";
 import AuthModal from "../../Auth/AuthModal";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser, logout } from "../../../state/Auth/Action";
+import { getCart } from "../../../state/cart/Action";
+import toast from "react-hot-toast";
+import { ImSad2 } from "react-icons/im";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
+const CustomToast = () => {
+  return (
+    <div className="flex items-center text-[12px] lg:text-[20px] py-2 px-4 rounded-2xl bg-orange-500 text-white">
+      <span className="p-1">Your Cart is Empty!!!</span>
+      <ImSad2 />
+    </div>
+  );
+};
 export default function Navigation() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation()
+  const location = useLocation();
 
   const [OpenAuthModal, setOpenAuthModal] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const openUserMenu = Boolean(anchorEl);
   const jwt = localStorage.getItem("jwt");
   const { auth } = useSelector((store) => store);
-  const dispatch = useDispatch()
+  const { cart } = useSelector((store) => store);
+  const dispatch = useDispatch();
 
   const handleUserClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -51,25 +63,30 @@ export default function Navigation() {
     navigate(`/${category.id}/${section.id}/${item.id}`);
     close();
   };
+  const handleCategoryClick2 = (category, section, item) => {
+    navigate(`/${category.id}/${section.id}/${item.id}`);
+  };
 
   const handleLogout = () => {
     dispatch(logout());
-    handleCloseUserMenu()
-    localStorage.clear()
+    toast.success("Logout Success");
+    handleCloseUserMenu();
+    localStorage.clear();
   };
 
   useEffect(() => {
     if (jwt) {
       dispatch(getUser(jwt));
+      dispatch(getCart());
     }
   }, [jwt, auth.jwt]);
 
   useEffect(() => {
-    if(auth.user){
-      handleClose()
+    if (auth.user) {
+      handleClose();
     }
-    if(location.pathname ===  '/login' || location.pathname ===  '/register' ){
-      navigate(-1)
+    if (location.pathname === "/login" || location.pathname === "/register") {
+      navigate(-1);
     }
   }, [auth.user]);
 
@@ -183,11 +200,18 @@ export default function Navigation() {
                               className="mt-6 flex flex-col space-y-6"
                             >
                               {section.items.map((item) => (
-                                <li key={item.name} className="flow-root">
-                                  <a
-                                    href={item.href}
-                                    className="-m-2 block p-2 text-gray-500"
-                                  >
+                                <li
+                                  key={item.name}
+                                  className="cursor-pointer flow-root"
+                                  onClick={() =>
+                                    handleCategoryClick2(
+                                      category,
+                                      section,
+                                      item
+                                    )
+                                  }
+                                >
+                                  <a className="-m-2 block p-2 text-gray-500">
                                     {item.name}
                                   </a>
                                 </li>
@@ -202,7 +226,7 @@ export default function Navigation() {
 
                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                   {navigation?.pages?.map((page) => (
-                    <div key={page.name} className="flow-root">
+                    <div key={page.name} className="cursor-pointer flow-root">
                       <a
                         href={page.href}
                         className="-m-2 block p-2 font-medium text-gray-900"
@@ -214,17 +238,28 @@ export default function Navigation() {
                 </div>
 
                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
-                  <div className="flow-root">
-                    <a
-                      href="#"
-                      className="-m-2 block p-2 font-medium text-gray-900"
+                  {!auth?.user?.firstname ? (
+                    <div
+                      className="cursor-pointer flow-root"
+                      onClick={handleOpen}
                     >
-                      Sign in
-                    </a>
-                  </div>
+                      <a className="-m-2 block p-2 font-medium text-gray-900">
+                        Sign in
+                      </a>
+                    </div>
+                  ) : (
+                    <div
+                      className="cursor-pointer flow-root"
+                      onClick={handleLogout}
+                    >
+                      <a className="-m-2 block p-2 font-medium text-gray-900">
+                        Sign Out
+                      </a>
+                    </div>
+                  )}
                 </div>
 
-                <div className="border-t border-gray-200 px-4 py-6">
+                {/* <div className="border-t border-gray-200 px-4 py-6">
                   <a href="#" className="-m-2 flex items-center p-2">
                     <img
                       src="https://tailwindui.com/img/flags/flag-canada.svg"
@@ -236,7 +271,7 @@ export default function Navigation() {
                     </span>
                     <span className="sr-only">, change currency</span>
                   </a>
-                </div>
+                </div> */}
               </Dialog.Panel>
             </Transition.Child>
           </div>
@@ -268,7 +303,8 @@ export default function Navigation() {
               <div className="ml-4 flex lg:ml-0">
                 <span className="sr-only">Your Company</span>
                 <img
-                  className="h-14 w-14 mr-1"
+                  onClick={() => navigate("/")}
+                  className="h-14 w-14 mr-1 cursor-pointer"
                   src="https://www.shutterstock.com/image-vector/shop-logo-good-260nw-1290022027.jpg"
                   alt="Image"
                 />
@@ -436,9 +472,9 @@ export default function Navigation() {
                           "aria-labelledby": "basic-button",
                         }}
                       >
-                        <MenuItem onClick={handleCloseUserMenu}>
+                        {/* <MenuItem onClick={handleCloseUserMenu}>
                           Profile
-                        </MenuItem>
+                        </MenuItem> */}
 
                         <MenuItem onClick={() => navigate("/account/order")}>
                           My Order
@@ -458,7 +494,7 @@ export default function Navigation() {
                 </div>
 
                 {/* Search */}
-                <div className="flex lg:ml-6">
+                {/* <div className="flex lg:ml-6">
                   <p className="p-2 text-gray-400 hover:text-gray-500">
                     <span className="sr-only">Search</span>
                     <MagnifyingGlassIcon
@@ -466,18 +502,27 @@ export default function Navigation() {
                       aria-hidden="true"
                     />
                   </p>
-                </div>
+                </div> */}
 
                 {/* Cart */}
                 <div className="ml-4 flow-root lg:ml-6">
                   <Button className="group -m-2 flex items-center p-2">
                     <ShoppingBagIcon
+                      onClick={
+                        cart?.cartItems?.length > 0
+                          ? () => navigate("/cart")
+                          : () => toast.custom(<CustomToast />)
+                      }
                       className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                       aria-hidden="true"
                     />
-                    <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-                      2
-                    </span>
+                    {cart?.cartItems?.length > 0 && (
+                      <span className="text-white w-5 h-5 rounded-full bg-red-600 ml-0 mb-4 text-sm font-medium text-gray-700 group-hover:text-gray-800">
+                        {cart?.cartItems?.length > 0
+                          ? cart?.cartItems?.length
+                          : ""}
+                      </span>
+                    )}
                     <span className="sr-only">items in cart, view bag</span>
                   </Button>
                 </div>

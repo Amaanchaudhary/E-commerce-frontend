@@ -16,7 +16,7 @@ const style = {
   p: 4,
 };
 
-const AuthModal = ({ handleClose, open }) => {
+const AdminAuthModal = ({ handleClose, open }) => {
   const location = useLocation();
 
   return (
@@ -28,13 +28,11 @@ const AuthModal = ({ handleClose, open }) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          {location.pathname === "/login" ? <LoginForm /> :
-           <RegisterForm />
-          }
+          <LoginForm />
         </Box>
       </Modal>
     </div>
   );
 };
 
-export default AuthModal;
+export default AdminAuthModal;

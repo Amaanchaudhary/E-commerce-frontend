@@ -1,3 +1,4 @@
+import toast from "react-hot-toast"
 import { BaseURL } from "../../config/apiConfig"
 import {
   REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, GET_USER_REQUEST, GET_USER_SUCCESS, GET_USER_FAILURE,
@@ -22,8 +23,11 @@ export const register = (userData) => async (dispatch) => {
     }
     console.log("user" , user);
     dispatch(RegisterSuccess(user.jwt));
+    toast.success('Register Success');
   } catch (error) {
     dispatch(RegisterFailure(error.message))
+    console.error(error, "error")
+    toast.error(error?.response?.data?.message || error.response.data.error );
   }
 }
 
@@ -42,11 +46,14 @@ export const login = (userData) => async (dispatch) => {
     const user = response.data;
     if (user.jwt) {
       localStorage.setItem("jwt", user.jwt)
+      toast.success('Login Success');
     }
     console.log("user" , user);
     dispatch(LoginSuccess(user.jwt));
   } catch (error) {
     dispatch(LoginFailure(error.message))
+    console.error("error" , error);
+    toast.error(error?.response?.data?.message || error.response.data.error );
   }
 }
 

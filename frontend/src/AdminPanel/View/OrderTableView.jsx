@@ -29,6 +29,8 @@ const OrdersTableView = () => {
   const { adminOrder } = useSelector((state) => state);
   const [anchorEl, setAnchorEl] = React.useState([]);
   const open = Boolean(anchorEl);
+  const { auth } = useSelector((store) => store);
+  const jwt = localStorage.getItem("jwt");
 
   const handleClick = (event, index) => {
     const newAnchorEl = [...anchorEl]; // Create a shallow copy of the array
@@ -43,7 +45,12 @@ const OrdersTableView = () => {
 
   useEffect(() => {
     dispatch(getOrder());
-  }, [adminOrder.confirmed, adminOrder.shipped, adminOrder.delivered]);
+  }, [
+    adminOrder.confirmed,
+    adminOrder.shipped,
+    adminOrder.delivered,
+    auth.user,
+  ]);
 
   console.log("order", adminOrder?.orders);
 
@@ -72,7 +79,7 @@ const OrdersTableView = () => {
               <TableRow>
                 <TableCell>Image</TableCell>
                 <TableCell align="left">Title</TableCell>
-                <TableCell align="left">Id</TableCell>
+                <TableCell align="left">Quantity</TableCell>
                 <TableCell align="left">Price</TableCell>
                 <TableCell align="left">Status</TableCell>
               </TableRow>

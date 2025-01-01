@@ -1,78 +1,49 @@
-import React, { useState } from "react";
-import AliceCarousel from "react-alice-carousel";
+import React from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import { Navigation } from "swiper/modules";
 import HomeSectionCard from "../HomeSectionCard/HomeSectionCard";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-import { Button } from "@mui/material";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import "./HomeSectionCarousel.css"; // For custom styles
+import { findProducts } from "../../../state/product/Action";
 
-const HomeSectionCarousel = ({data , sectionName}) => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  console.log(activeIndex);
-  const responsive = {
-    0: { items: 1 },
-    720: { items: 3 },
-    1024: { items: 4 },
-  };
-
-  const sliderPrev = () => setActiveIndex(activeIndex - 1);
-  const sliderNext = () => setActiveIndex(activeIndex + 1);
-
-  const items = data
-    .slice(0, 10)
-    .map((item) => <HomeSectionCard product={item} />);
-
-  const syncActiveIndex = ({ item }) => setActiveIndex(item);
+const HomeSectionCarousel = ({ data, sectionName }) => {
 
   return (
     <div className="border">
-        <h2 className="text-2xl font-extrabold text-gray-800 py-5">{sectionName}</h2>
-      <div className="relative p-5 ">
-        <AliceCarousel
-          items={items}
-          disableButtonsControls
-          responsive={responsive}
-          disableDotsControls
-          onSlideChanged={syncActiveIndex}
-          activeIndex={activeIndex}
-        />
-        {activeIndex !== items.length - 4 && (
-          <Button
-            variant="contained"
-            className="z-50 bg-white"
-            onClick={sliderNext}
-            sx={{
-              position: "absolute",
-              top: "8rem",
-              right: "0rem",
-              transform: "translateX(50%) rotate(90deg)",
-              bgcolor: "white",
-            }}
-            aria-label="next"
-          >
-            <KeyboardArrowLeftIcon
-              sx={{ transform: "rotate(90deg)", color: "black" }}
-            />
-          </Button>
-        )}
+      <h2 className="text-2xl font-extrabold text-gray-800 py-5">
+        {sectionName}
+      </h2>
+      <div className="relative p-5">
+        <Swiper
+          modules={[Navigation]}
+          navigation={{
+            nextEl: ".custom-next",
+            prevEl: ".custom-prev",
+          }}
+          spaceBetween={20}
+          breakpoints={{
+            0: { slidesPerView: 1 }, // Mobile view
+            720: { slidesPerView: 3 }, // Tablet view
+            1024: { slidesPerView: 4 }, // Desktop view
+          }}
+        >
+          {data?.slice(0, 10)?.map((item, index) => (
+            <SwiperSlide key={index}>
+              <HomeSectionCard product={item} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
 
-        {activeIndex !== 0 && (
-          <Button
-            variant="contained"
-            className="z-50 bg-white"
-            onClick={sliderPrev}
-            sx={{
-              position: "absolute",
-              top: "8rem",
-              left: "0rem",
-              transform: "translateX(-50%) rotate(-90deg)",
-              bgcolor: "white",
-            }}
-            aria-label="previous"
-          >
-            <KeyboardArrowLeftIcon
-              sx={{ transform: "rotate(90deg)", color: "black" }}
-            />
-          </Button>
-        )}
+        {/* Custom Buttons */}
+        <button className="custom-prev">
+          <KeyboardArrowLeftIcon />
+        </button>
+        <button className="custom-next">
+          <KeyboardArrowRightIcon />
+        </button>
       </div>
     </div>
   );

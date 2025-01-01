@@ -86,6 +86,12 @@ export default function ProductDetails() {
     dispatch(findProductsById(productId));
   }, [productId]);
 
+  // const { product } = useSelector((state) => state);
+
+  // const similarProducts = product.products?.content?.filter(
+  //   (item) => item?.category.parentCategory.parentCategory.name == "men"
+  // );
+
   return (
     <div className="bg-white lg:px-20">
       <div className="pt-6">

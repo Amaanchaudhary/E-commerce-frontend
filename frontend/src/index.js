@@ -6,12 +6,46 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux'
 import { store } from './state/store';
+import { Toaster } from 'react-hot-toast';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
+        <Toaster
+          position="top-right"
+          reverseOrder={false}
+          gutter={8}
+          containerClassName=""
+          containerStyle={{}}
+          toastOptions={{
+            // Define default options
+            className: '',
+            duration: 5000,
+            removeDelay: 1000,
+            style: {
+              background: '#363636',
+              color: '#fff',
+            },
+
+            // Default options for specific types
+            success: {
+              duration: 3000,
+              iconTheme: {
+                primary: 'green',
+                secondary: 'black',
+              },
+            },
+            custom: {
+              duration: 1000,
+              iconTheme: {
+                primary: 'green',
+                secondary: 'black',
+              },
+            },
+          }}
+        />
         <App />
       </Provider>
     </BrowserRouter>
