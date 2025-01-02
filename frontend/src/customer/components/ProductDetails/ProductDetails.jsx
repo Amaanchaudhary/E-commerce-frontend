@@ -100,7 +100,7 @@ export default function ProductDetails() {
             role="list"
             className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8"
           >
-            {product.breadcrumbs.map((breadcrumb) => (
+            {/* {product.breadcrumbs.map((breadcrumb) => (
               <li key={breadcrumb.id}>
                 <div className="flex items-center">
                   <a
@@ -121,14 +121,14 @@ export default function ProductDetails() {
                   </svg>
                 </div>
               </li>
-            ))}
+            ))} */}
             <li className="text-sm">
               <a
                 href={product.href}
                 aria-current="page"
                 className="font-medium text-gray-500 hover:text-gray-600"
               >
-                {product.name}
+                {productDetail?.category.name}
               </a>
             </li>
           </ol>
@@ -144,7 +144,7 @@ export default function ProductDetails() {
                 className="h-full w-full object-cover object-center"
               />
             </div>
-            <div className="flex flex-wrap space-x-5 justify-center">
+            {/* <div className="flex flex-wrap space-x-5 justify-center">
               {product.images.map((item) => (
                 <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg max-w-[5rem] max-h-[5rem] mt-4">
                   <img
@@ -154,7 +154,7 @@ export default function ProductDetails() {
                   />
                 </div>
               ))}
-            </div>
+            </div> */}
           </div>
 
           {/* Product info */}
@@ -216,14 +216,14 @@ export default function ProductDetails() {
                       Choose a size
                     </RadioGroup.Label>
                     <div className="grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-4">
-                      {product.sizes.map((size) => (
+                      {productDetail?.sizes?.map((size) => (
                         <RadioGroup.Option
                           key={size.name}
                           value={size}
-                          disabled={!size.inStock}
+                          disabled={Boolean(size.quantity == 0)}
                           className={({ active }) =>
                             classNames(
-                              size.inStock
+                              !size.quantity == 0
                                 ? "cursor-pointer bg-white text-gray-900 shadow-sm"
                                 : "cursor-not-allowed bg-gray-50 text-gray-200",
                               active ? "ring-2 ring-indigo-500" : "",
@@ -236,7 +236,7 @@ export default function ProductDetails() {
                               <RadioGroup.Label as="span">
                                 {size.name}
                               </RadioGroup.Label>
-                              {size.inStock ? (
+                              {!size.quantity == 0 ? (
                                 <span
                                   className={classNames(
                                     active ? "border" : "border-2",
@@ -293,21 +293,21 @@ export default function ProductDetails() {
             <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">
               {/* Description and details */}
               <div>
-                <h3 className="sr-only">Description</h3>
+                <h3 className="sr-only">{productDetail?.description}</h3>
 
                 <div className="space-y-6">
                   <p className="text-base text-gray-900">
-                    {product.description}
+                    {productDetail?.description}
                   </p>
                 </div>
               </div>
 
               <div className="mt-10">
-                <h3 className="text-sm font-medium text-gray-900">
+                {/* <h3 className="text-sm font-medium text-gray-900">
                   Highlights
-                </h3>
+                </h3> */}
 
-                <div className="mt-4">
+                {/* <div className="mt-4">
                   <ul role="list" className="list-disc space-y-2 pl-4 text-sm">
                     {product.highlights.map((highlight) => (
                       <li key={highlight} className="text-gray-400">
@@ -315,16 +315,16 @@ export default function ProductDetails() {
                       </li>
                     ))}
                   </ul>
-                </div>
+                </div> */}
               </div>
 
-              <div className="mt-10">
+              {/* <div className="mt-10">
                 <h2 className="text-sm font-medium text-gray-900">Details</h2>
 
                 <div className="mt-4 space-y-6">
                   <p className="text-sm text-gray-600">{product.details}</p>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </section>
@@ -432,7 +432,7 @@ export default function ProductDetails() {
         </section>
 
         {/* Similar Products */}
-        <section className="pt-10">
+        {/* <section className="pt-10">
           <h1 className="py-5 font-bold text-xl">Similar Products</h1>
 
           <div className="flex flex-wrap space-y-5">
@@ -440,7 +440,7 @@ export default function ProductDetails() {
               <HomeSectionCard product={item} />
             ))}
           </div>
-        </section>
+        </section> */}
       </div>
     </div>
   );

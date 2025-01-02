@@ -1,6 +1,8 @@
 import React, { Fragment, useState } from "react";
 import { useDispatch } from "react-redux";
 import { createProduct } from "../../state/product/Action";
+import { navigation } from "../../customer/components/Navigation/NavigationData";
+
 import {
   Button,
   FormControl,
@@ -18,6 +20,7 @@ const initialSizes = [
   { name: "L", quantity: 0 },
 ];
 const CreateProducts = () => {
+  const { categories } = navigation;
   const [productData, setProductData] = useState({
     imageUrl: "",
     brand: "",
@@ -34,6 +37,44 @@ const CreateProducts = () => {
     description: "",
   });
 
+  const [secondLevelCategories, setSecondLevelCategories] = useState([]);
+  const [thirdLevelCategories, setThirdLevelCategories] = useState([]);
+
+  const handleTopLevelChange = (e) => {
+    const topLevelId = e.target.value;
+    setProductData((prevData) => ({
+      ...prevData,
+      topLevelCategory: topLevelId,
+      secondLevelCategory: "",
+      thirdLevelCategory: "",
+    }));
+
+    const selectedCategory = categories.find((cat) => cat.id === topLevelId);
+    setSecondLevelCategories(selectedCategory ? selectedCategory.sections : []);
+    setThirdLevelCategories([]);
+  };
+
+  const handleSecondLevelChange = (e) => {
+    const secondLevelId = e.target.value;
+    setProductData((prevData) => ({
+      ...prevData,
+      secondLevelCategory: secondLevelId,
+      thirdLevelCategory: "",
+    }));
+
+    const selectedSection = secondLevelCategories.find(
+      (sec) => sec.id === secondLevelId
+    );
+    setThirdLevelCategories(selectedSection ? selectedSection.items : []);
+  };
+
+  const handleThirdLevelChange = (e) => {
+    setProductData((prevData) => ({
+      ...prevData,
+      thirdLevelCategory: e.target.value,
+    }));
+  };
+
   const dispatch = useDispatch();
   const jwt = localStorage.getItem("jwt");
 
@@ -48,7 +89,7 @@ const CreateProducts = () => {
   const handleSizeChange = (e, index) => {
     let { name, value } = e.target;
     // console.log(name , value , "check");
-    
+
     name === "size_quantity" ? (name = "quantity") : (name = e.target.name);
     const sizes = [...productData.size];
     sizes[index][name] = value;
@@ -61,7 +102,7 @@ const CreateProducts = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(createProduct(productData));
-    console.log(productData);
+    console.log(productData, "created");
   };
 
   return (
@@ -77,9 +118,10 @@ const CreateProducts = () => {
         onSubmit={handleSubmit}
         className="createProductContainer min-h-screen "
       >
-        <Grid container spacing={2} >
+        <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
+              required
               fullWidth
               label="Image URL"
               name="imageUrl"
@@ -90,6 +132,7 @@ const CreateProducts = () => {
 
           <Grid item xs={12} sm={6}>
             <TextField
+              required
               fullWidth
               label="Brand"
               name="brand"
@@ -100,6 +143,7 @@ const CreateProducts = () => {
 
           <Grid item xs={12} sm={6}>
             <TextField
+              required
               fullWidth
               label="Title"
               name="title"
@@ -111,6 +155,7 @@ const CreateProducts = () => {
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
+              required
               label="Color"
               name="color"
               value={productData.color}
@@ -120,6 +165,7 @@ const CreateProducts = () => {
 
           <Grid item xs={12} sm={6}>
             <TextField
+              required
               fullWidth
               label="Quantity"
               name="quantity"
@@ -131,6 +177,7 @@ const CreateProducts = () => {
 
           <Grid item xs={12} sm={4}>
             <TextField
+              required
               fullWidth
               label="Price"
               name="price"
@@ -143,6 +190,7 @@ const CreateProducts = () => {
           <Grid item xs={12} sm={4}>
             <TextField
               fullWidth
+              required
               label="Discounted Price"
               name="discountedPrice"
               value={productData.discountedPrice}
@@ -153,6 +201,7 @@ const CreateProducts = () => {
 
           <Grid item xs={12} sm={4}>
             <TextField
+              required
               fullWidth
               label="Discount Percent"
               name="discountPercent"
@@ -166,14 +215,17 @@ const CreateProducts = () => {
             <FormControl fullWidth>
               <InputLabel>Top Level category</InputLabel>
               <Select
+                required
                 name="topLevelCategory"
                 value={productData.topLevelCategory}
-                onChange={handleChange}
+                onChange={handleTopLevelChange}
                 label="Top Level Category"
               >
-                <MenuItem value="men">Men</MenuItem>
-                <MenuItem value="women">Women</MenuItem>
-                <MenuItem value="kids">Kids</MenuItem>
+                {categories.map((cat) => (
+                  <MenuItem key={cat.id} value={cat.id}>
+                    {cat.name}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Grid>
@@ -182,14 +234,18 @@ const CreateProducts = () => {
             <FormControl fullWidth>
               <InputLabel>Second Level category</InputLabel>
               <Select
+                required
                 name="secondLevelCategory"
                 value={productData.secondLevelCategory}
-                onChange={handleChange}
+                onChange={handleSecondLevelChange}
+                disabled={!secondLevelCategories.length}
                 label="Second Level Category"
               >
-                <MenuItem value="clothing">clothing</MenuItem>
-                <MenuItem value="accesories">Accesories</MenuItem>
-                <MenuItem value="brands">Brands</MenuItem>
+                {secondLevelCategories.map((sec) => (
+                  <MenuItem key={sec.id} value={sec.id}>
+                    {sec.name}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Grid>
@@ -198,17 +254,18 @@ const CreateProducts = () => {
             <FormControl fullWidth>
               <InputLabel>Third Level category</InputLabel>
               <Select
+                required
                 name="thirdLevelCategory"
                 value={productData.thirdLevelCategory}
-                onChange={handleChange}
+                onChange={handleThirdLevelChange}
+                disabled={!thirdLevelCategories.length}
                 label="Third Level Category"
               >
-                <MenuItem value="top">Tops</MenuItem>
-                <MenuItem value="women_dress">Dresses</MenuItem>
-                <MenuItem value="t-shirts">T-shirts</MenuItem>
-                <MenuItem value="shirt">Shirt</MenuItem>
-                <MenuItem value="saree">Saree</MenuItem>
-                <MenuItem value="shirt">Lengha Choli</MenuItem>
+                {thirdLevelCategories.map((item) => (
+                  <MenuItem key={item.id} value={item.id}>
+                    {item.name}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Grid>
@@ -216,6 +273,7 @@ const CreateProducts = () => {
           <Grid item xs={12}>
             <TextField
               fullWidth
+              required
               id="outlined-multiline-static"
               label="Description"
               multiline
@@ -225,28 +283,28 @@ const CreateProducts = () => {
               value={productData.description}
             />
           </Grid>
-          
+
           {productData?.size?.map((size, index) => (
             <Grid key={index} container item spacing={3}>
               <Grid item xs={12} sm={6}>
                 <TextField
+                  required
                   label="Sizes Name"
                   name="name"
                   value={size.name}
                   onChange={(event) => handleSizeChange(event, index)}
-                  required
                   fullWidth
                 />
               </Grid>
 
               <Grid item xs={12} sm={6}>
                 <TextField
+                  required
                   label="Quantity"
                   name="size_quantity"
                   type="number"
                   value={size.quantity}
                   onChange={(event) => handleSizeChange(event, index)}
-                  required
                   fullWidth
                 />
               </Grid>

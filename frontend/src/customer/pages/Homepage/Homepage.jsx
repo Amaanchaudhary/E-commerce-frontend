@@ -26,25 +26,39 @@ const Homepage = () => {
     dispatch(findProducts(data));
   }, []);
 
-  const mens = product.products?.content?.filter(
-    (item) => item?.category.parentCategory.parentCategory.name == "men"
+  const under599 = product.products?.content?.filter(
+    (item) =>
+      item?.discountedPrice <= "599" && item?.category.parentCategory == "clothing"
   );
 
-  const womens = product.products?.content?.filter(
-    (item) => item?.category.parentCategory.parentCategory.name == "women"
+  const footwear = product.products?.content?.filter(
+    (item) => item?.category.parentCategory.name == "footwear"
   );
 
-  console.log(mens, "mens");
+  const Kids = product.products?.content?.filter(
+    (item) => item?.category.parentCategory.parentCategory.name == "kids"
+  );
 
   return (
     <div>
       <MainCarousel />
       <div className="space-y-10 py-20 flex-col justify-center px-5  lg:px-10">
-        <HomeSectionCarousel data={mens} sectionName={"Men's Clothing"} />
-        <HomeSectionCarousel data={womens} sectionName={"Women's Clothing"} />
-        <HomeSectionCarousel data={mens_kurta} sectionName={"Men's Shirt"} />
-        <HomeSectionCarousel data={mens_kurta} sectionName={"Women's Saree"} />
-        <HomeSectionCarousel data={mens_kurta} sectionName={"Women's Dress"} />
+        {under599?.length > 0 && (
+          <HomeSectionCarousel
+            data={under599}
+            sectionName={"Clothing Under 599"}
+          />
+        )}
+        {footwear?.length > 0 && (
+          <HomeSectionCarousel
+            data={footwear}
+            sectionName={"Trending Footwears"}
+          />
+        )}
+
+        {Kids?.length > 0 && (
+          <HomeSectionCarousel data={Kids} sectionName={"Kids Wear"} />
+        )}
       </div>
     </div>
   );

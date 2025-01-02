@@ -16,6 +16,20 @@ export const getOrder = () => {
   }
 }
 
+export const getUserAllOrder = () => {
+  return async (dispatch) => {
+    dispatch({ type: GET_ORDER_REQUEST })
+    try {
+      const response = await api.get(`/api/orders/all`)
+      console.log("get all orders", response.data);
+      dispatch({ type: GET_ORDER_SUCCESS, payload: response.data })
+    } catch (error) {
+      console.log("catch error", error);
+      dispatch({ type: GET_ORDER_FAILURE, payload: error.message })
+    }
+  }
+}
+
 export const confirmOrder = (orderId) => async (dispatch) => {
   dispatch({ type: CONFIRMED_ORDER_REQUEST })
   try {
