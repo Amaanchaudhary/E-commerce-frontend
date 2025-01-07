@@ -1,6 +1,6 @@
 import axios from "axios"
 
-export const BaseURL = "http://localhost:8000"
+export const BaseURL = "https://e-commerce-backend-ef1s.onrender.com"
 const jwt = localStorage.getItem("jwt")
 
 export const api = axios.create({
