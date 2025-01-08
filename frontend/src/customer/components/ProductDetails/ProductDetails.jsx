@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { findProducts, findProductsById } from "../../../state/product/Action";
 import { addItemToCart } from "../../../state/cart/Action";
+import toast from "react-hot-toast";
 
 const product = {
   name: "Basic Tee 6-Pack",
@@ -77,6 +78,11 @@ export default function ProductDetails() {
   const [selectedSize, setSelectedSize] = useState(product?.sizes[2]);
 
   const handleAddToCart = () => {
+    if(!store.auth?.user){
+      toast.error("Please Login First")
+      navigate('/login')
+      return
+    }
     const data = { productId, size: selectedSize.name };
     dispatch(addItemToCart(data));
     navigate("/cart");

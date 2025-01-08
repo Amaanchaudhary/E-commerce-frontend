@@ -481,6 +481,12 @@ export default function Navigation() {
                         </MenuItem>
 
                         <MenuItem onClick={handleLogout}>Logout</MenuItem>
+
+                        {auth?.user?.role == "ADMIN" && (
+                          <MenuItem onClick={() => navigate("/admin")}>
+                            Admin Dashboard
+                          </MenuItem>
+                        )}
                       </Menu>
                     </div>
                   ) : (

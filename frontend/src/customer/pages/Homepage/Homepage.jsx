@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import MainCarousel from "../../components/HomeCarousel/MainCarousel";
 import HomeSectionCarousel from "../../components/HomeSectionCarousel/HomeSectionCarousel";
 import { mens_kurta } from "../../../Data/Men/men_kurta";
 import { useEffect } from "react";
 import { findProducts } from "../../../state/product/Action";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import AuthModal from "../../Auth/AuthModal";
 
 const Homepage = () => {
   const { product } = useSelector((state) => state);
+  const { auth } = useSelector((state) => state);
+  const Navigate = useNavigate();
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -24,11 +28,27 @@ const Homepage = () => {
       stock: "",
     };
     dispatch(findProducts(data));
+
+    // if (!auth.user) {
+    //   Navigate("/login");
+    //   handleOpen()
+    // }
   }, []);
+
+  const [OpenAuthModal, setOpenAuthModal] = useState(false);
+
+  const handleOpen = () => {
+    setOpenAuthModal(true);
+  };
+
+  const handleClose = () => {
+    setOpenAuthModal(false);
+  };
 
   const under599 = product.products?.content?.filter(
     (item) =>
-      item?.discountedPrice <= "599" && item?.category.parentCategory == "clothing"
+      item?.discountedPrice <= "599" &&
+      item?.category.parentCategory == "clothing"
   );
 
   const footwear = product.products?.content?.filter(
@@ -60,6 +80,8 @@ const Homepage = () => {
           <HomeSectionCarousel data={Kids} sectionName={"Kids Wear"} />
         )}
       </div>
+
+      <AuthModal handleClose={handleClose} open={OpenAuthModal} />
     </div>
   );
 };

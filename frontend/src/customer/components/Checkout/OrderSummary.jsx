@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import AddressCard from "../AddressCard/AddressCard";
 import CartItem from "../Cart/CartItem";
 import { Button } from "@mui/material";
@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { getOrderById } from "../../../state/Order/Action";
 import { useLocation } from "react-router-dom";
 import { createPayment } from "../../../state/payment/Action";
+import AuthModal from "../../Auth/AuthModal";
 
 const OrderSummary = () => {
   const dispatch = useDispatch();
@@ -16,8 +17,8 @@ const OrderSummary = () => {
   const orderId = searchParams.get("order_id");
 
   const handleCheckout = () => {
-    dispatch(createPayment(orderId))
-  }
+    dispatch(createPayment(orderId));
+  };
 
   useEffect(() => {
     dispatch(getOrderById(orderId));
@@ -81,6 +82,7 @@ const OrderSummary = () => {
           </div>
         </div>
       </div>
+
     </div>
   );
 };
