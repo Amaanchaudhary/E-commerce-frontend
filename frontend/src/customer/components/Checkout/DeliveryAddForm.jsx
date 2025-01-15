@@ -2,7 +2,7 @@ import { Box, Button, Grid, TextField } from "@mui/material";
 import React from "react";
 import AddressCard from "../AddressCard/AddressCard";
 import { useDispatch, useSelector } from "react-redux";
-import { createOrder } from "../../../state/Order/Action";
+import { addAdress, createOrder } from "../../../state/Order/Action";
 import { useNavigate } from "react-router-dom";
 
 const DeliveryAddForm = () => {
@@ -18,21 +18,24 @@ const DeliveryAddForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const form = e.currentTarget
     const data = new FormData(e.currentTarget);
+
     const address = {
       firstName: data.get("firstname"),
       lastName: data.get("lastname"),
       streetAddress: data.get("address"),
       city: data.get("city"),
       state: data.get("state"),
-      zipCode: data.get("zip"),
+      zipCode: Number(data.get("zip")),
       mobile: data.get("phonenumber"),
     };
 
-    const orderData = { address, navigate };
-
-    dispatch(createOrder(orderData));
+    // const orderData = { address };
+    dispatch(addAdress(address));
     console.log("address", address);
+    // Clear the form after dispatch
+    form.reset();
   };
 
   return (
@@ -150,7 +153,7 @@ const DeliveryAddForm = () => {
                     variant="contained"
                     type="submit"
                   >
-                    Deliver Here
+                    Add Address
                   </Button>
                 </Grid>
               </Grid>

@@ -1,4 +1,7 @@
 import {
+  ADD_ADDRESS_FAILURE,
+  ADD_ADDRESS_REQUEST,
+  ADD_ADDRESS_SUCCESS,
   CREATE_ORDER_FAILURE,
   CREATE_ORDER_REQUEST,
   CREATE_ORDER_SUCCESS,
@@ -54,6 +57,25 @@ export const orderReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         error: action.payload,
+      };
+    case ADD_ADDRESS_REQUEST:
+      return {
+        // ...state,
+        // loading: true,
+        // error: null,
+      };
+    case ADD_ADDRESS_SUCCESS:
+      return {
+        // ...state,
+        // loading: false,
+        // error: null,
+        // order: action.payload,
+      };
+    case ADD_ADDRESS_FAILURE:
+      return {
+        // ...state,
+        // loading: false,
+        // error: action.payload,
       };
     default:
       return state;

@@ -68,7 +68,7 @@ const PaymentSuccess = () => {
                     <span>Size : {item.size}</span>
                   </div>
                   <p>Seller : {item.product.brand}</p>
-                  <p>$ {item.price}</p>
+                  <p>{item.discountedPrice}</p>
                 </div>
               </div>
             </Grid>

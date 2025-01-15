@@ -4,10 +4,14 @@ import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useDispatch } from "react-redux";
 import { removeCartItem, updateCartItem } from "../../../state/cart/Action";
+import { useLocation } from "react-router-dom";
 
 const CartItem = ({ item }) => {
 
   const dispatch = useDispatch();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search)
+  const step = searchParams.get("step")  
 
   const handleUpdateCartItem = (num) => {
     const data = {
@@ -52,7 +56,7 @@ const CartItem = ({ item }) => {
         <div className="flex item-center space-x-2">
           <IconButton
             onClick={() => handleUpdateCartItem(-1)}
-            disabled={item?.quantity <= 1}
+            disabled={item?.quantity <= 1 || step == 3}
           >
             <RemoveCircleOutlineIcon />
           </IconButton>
@@ -60,6 +64,7 @@ const CartItem = ({ item }) => {
           <IconButton
             sx={{ color: "RGB(145 85 253)" }}
             onClick={() => handleUpdateCartItem(1)}
+            disabled={step == 3}
           >
             <AddCircleOutlineIcon />
           </IconButton>
@@ -69,6 +74,7 @@ const CartItem = ({ item }) => {
           <Button
             sx={{ color: "RGB(145 85 253)" }}
             onClick={handleRemoveCartItem}
+            disabled={step == 3}
           >
             Remove
           </Button>

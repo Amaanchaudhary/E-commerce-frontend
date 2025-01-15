@@ -48,6 +48,7 @@ const LoginForm = () => {
               required
               id="password"
               name="password"
+              type="password"
               label="Password"
               fullWidth
               autoComplete="password"

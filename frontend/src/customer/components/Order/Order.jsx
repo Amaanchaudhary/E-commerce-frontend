@@ -15,7 +15,6 @@ const Order = () => {
 
   const { orders } = adminOrder;
   
-
   const orderStatus = [
     { label: "On the Way", value: "on_the_way" },
     { label: "Delivered", value: "Delivered" },
