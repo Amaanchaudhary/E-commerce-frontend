@@ -1,7 +1,12 @@
 import axios from "axios"
 
-export const BaseURL = "https://e-commerce-backend-ef1s.onrender.com"
+// export const BaseURL = "https://e-commerce-backend-ef1s.onrender.com"
 // export const BaseURL = "http://localhost:8000"
+export const BaseURL =
+  process.env.NODE_ENV === "production"
+    ? "https://e-commerce-backend-ef1s.onrender.com"
+    : "http://localhost:8000";
+
 
 // const jwt = localStorage.getItem("jwt")
 
