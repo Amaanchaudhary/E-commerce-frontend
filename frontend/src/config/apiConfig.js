@@ -4,7 +4,7 @@ import axios from "axios"
 // export const BaseURL = "http://localhost:8000"
 export const BaseURL =
   process.env.NODE_ENV === "production"
-    ? "https://e-commerce-backend-ef1s.onrender.com"
+    ? "https://e-commerce-backend-ashy-two.vercel.app"
     : "http://localhost:8000";
 
 
