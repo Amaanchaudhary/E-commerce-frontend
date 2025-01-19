@@ -19,6 +19,7 @@ const initialState = {
   loading: false,
   error: null,
   cartItems: [],
+  updateCartItem: false, // 
 };
 
 export const cartReducer = (state = initialState, action) => {
@@ -27,9 +28,11 @@ export const cartReducer = (state = initialState, action) => {
       return { ...state, loading: true, error: null };
 
     case ADD_ITEM_TO_CART_SUCCESS:
+      
       return {
         ...state,
         cartItems: [...state.cartItems, action.payload.cartItems],
+        updateCartItem: true, 
         loading: false,
       };
 
@@ -42,7 +45,8 @@ export const cartReducer = (state = initialState, action) => {
     case GET_CART_SUCCESS:
       return {
         ...state, cartItems: action.payload.cartItems,
-        cart: action.payload, loading: false
+        cart: action.payload, loading: false,
+        updateCartItem: false, // Reset update flag after fetching
       }
     case GET_CART_FAILURE:
       return {

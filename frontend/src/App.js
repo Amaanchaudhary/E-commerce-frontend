@@ -13,6 +13,8 @@ import CustomerRoutes from './Routers/CustomerRoutes';
 import AdminRoutes from './Routers/AdminRoutes';
 
 function App() {
+  console.log("version v1");
+  
   return (
     <div className="">
       <Routes>

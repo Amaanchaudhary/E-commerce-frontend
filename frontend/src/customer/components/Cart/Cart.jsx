@@ -17,7 +17,7 @@ const Cart = () => {
 
   useEffect(() => {
     dispatch(getCart());
-  }, [cart.updateCartItem, cart.removeCartItem]);
+  }, [cart.updateCartItem, cart.removeCartItem , dispatch]);
 
   return (
     <div>
